@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Folder } from "@/components/folder";
 import { File } from "@/components/file";
 import { FolderStructure } from "@/types/Structure";
+import { filterStructure } from "@/helpers/filter-structure";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -26,21 +27,6 @@ export default function Home() {
     { type: "file", name: "File2" }
   ];
 
-  const filterStructure = (structure: FolderStructure, query: string): FolderStructure => {
-    return structure.filter((item) => {
-      if (item.type === "file") {
-        return item.name.toLowerCase().includes(query.toLowerCase());
-      }
-      if (item.type === "folder") {
-        const children = filterStructure(item.children || [], query);
-        if (children.length > 0 || item.name.toLowerCase().includes(query.toLowerCase())) {
-          return { ...item, children };
-        }
-        return false;
-      }
-      return false;
-    });
-  };
 
   const filteredStructure = filterStructure(folderStructure, searchQuery);
 
@@ -59,9 +45,9 @@ export default function Home() {
         }
         if (item.type === "folder") {
           return (
-            <Folder 
-              key={item.name} 
-              folder={item} 
+            <Folder
+              key={item.name}
+              folder={item}
             />
           );
         }
