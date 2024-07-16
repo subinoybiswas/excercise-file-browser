@@ -14,18 +14,19 @@ export function Folder({ folder }: { folder: FolderType }) {
                 {folder.name}
             </div>
             {isOpen && (
-                <div className="ml-4">
+                <div className="ml-4" onClick={(e) => e.stopPropagation()} >
                     {folder.children && folder.children.map((child) => {
                         if (child.type === "file") {
                             return <File key={child.name} file={child} />;
                         }
                         if (child.type === "folder") {
                             return (
-                                <div onClick={(e) => e.stopPropagation()} key={child.name}>
-                                    <Folder
-                                        folder={child}
-                                    />
-                                </div>
+
+                                <Folder
+                                    key={child.name}
+                                    folder={child}
+                                />
+
                             );
                         }
                         return null;
