@@ -2,34 +2,13 @@
 import { useState } from "react";
 import { Folder } from "@/components/folder";
 import { File } from "@/components/file";
-import { FolderStructure } from "@/types/Structure";
 import { filterStructure } from "@/helpers/filter-structure";
-
+import { folderStructure } from "@/helpers/sample-structure";
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const folderStructure: FolderStructure = [
-    {
-      type: "folder",
-      name: "Folder1",
-      children: [
-        { type: "file", name: "File1" },
-        {
-          type: "folder",
-          name: "Subfolder1",
-          children: [
-            { type: "file", name: "Subfile1" },
-            { type: "file", name: "Subfile2" }
-          ]
-        }
-      ]
-    },
-    { type: "file", name: "File2" }
-  ];
-
-
-  const filteredStructure = filterStructure(folderStructure, searchQuery);
-
+  const {paths,structure} = filterStructure(folderStructure, searchQuery);
+  console.log(paths);
   return (
     <main>
       <input
@@ -39,7 +18,7 @@ export default function Home() {
         className="p-2 m-2 border-2 border-black rounded-lg"
         onChange={(e) => setSearchQuery(e.target.value)}
       />
-      {filteredStructure.map((item) => {
+      {structure.map((item) => {
         if (item.type === "file") {
           return <File key={item.name} file={item} />;
         }
