@@ -1,24 +1,41 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Folder } from "@/components/folder";
 import { File } from "@/components/file";
 import { filterStructure } from "@/helpers/filter-structure";
 import { folderStructure } from "@/helpers/sample-structure";
-export default function Home() {
+import { PathsProvider, usePaths } from "@/contexts/PathContexts";
+function HomeComponent() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [structure, setStructure] = useState(folderStructure);
+  const { setPaths } = usePaths();
 
-  const {paths,structure} = filterStructure(folderStructure, searchQuery);
-  console.log(paths);
+
+
+  useEffect(() => {
+    if (searchQuery.length > 1) {
+      const { paths, structure } = filterStructure(folderStructure, searchQuery);
+      console.log(paths);
+      console.log(structure);
+      setPaths(paths);
+      setStructure(structure);
+    }
+    if (searchQuery.length < 1) {
+      setStructure(folderStructure);
+      setPaths([]);
+    }
+  }, [searchQuery]);
+
   return (
     <main>
       <input
         type="text"
-        placeholder="Search..."
+        placeholder="Search file..."
         value={searchQuery}
         className="p-2 m-2 border-2 border-black rounded-lg"
         onChange={(e) => setSearchQuery(e.target.value)}
       />
-      {structure.map((item) => {
+      {structure.length > 0 ? structure.map((item) => {
         if (item.type === "file") {
           return <File key={item.name} file={item} />;
         }
@@ -31,7 +48,16 @@ export default function Home() {
           );
         }
         return null;
-      })}
+      }) : <div className="p-2 m-2">No results found</div>}
     </main>
   );
 }
+
+const Home: React.FC = () => {
+  return (
+    <PathsProvider>
+      <HomeComponent />
+    </PathsProvider>
+  );
+};
+export default Home;
