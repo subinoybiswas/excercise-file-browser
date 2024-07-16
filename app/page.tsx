@@ -50,6 +50,7 @@ export default function Home() {
         type="text"
         placeholder="Search..."
         value={searchQuery}
+        className="p-2 m-2 border-2 border-black rounded-lg"
         onChange={(e) => setSearchQuery(e.target.value)}
       />
       {filteredStructure.map((item) => {

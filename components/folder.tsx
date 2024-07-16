@@ -8,7 +8,7 @@ export function Folder({ folder }: { folder: FolderType }) {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="bg-slate-50 hover:bg-blue-200 flex flex-col gap-1 p-2 cursor-default" onClick={() => setIsOpen(prev => !prev)}>
+        <div className="bg-slate-50  flex flex-col gap-1 p-2 cursor-default" onClick={() => setIsOpen(prev => !prev)}>
             <div className="flex flex-row items-center gap-1">
                 <FolderIcon />
                 {folder.name}
