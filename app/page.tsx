@@ -10,8 +10,6 @@ function HomeComponent() {
   const [structure, setStructure] = useState(folderStructure);
   const { setPaths } = usePaths();
 
-
-
   useEffect(() => {
     if (searchQuery.length > 1) {
       const { paths, structure } = filterStructure(folderStructure, searchQuery);
@@ -27,7 +25,7 @@ function HomeComponent() {
   }, [searchQuery]);
 
   return (
-    <main>
+    <main className="select-none">
       <input
         type="text"
         placeholder="Search file..."
