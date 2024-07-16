@@ -2,18 +2,13 @@
 import { FolderType } from "@/types/FolderType";
 import { Folder as FolderIcon } from 'lucide-react';
 import { File } from "@/components/file";
+import { useState } from "react";
 
-interface FolderProps {
-    folder: FolderType;
-    openFolders: Set<string>;
-    toggleFolder: (folderName: string) => void;
-}
-
-export function Folder({ folder, openFolders, toggleFolder }: FolderProps) {
-    const isOpen = openFolders.has(folder.name); // Check if this folder is open
+export function Folder({ folder }: { folder: FolderType }) {
+    const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="bg-slate-50 hover:bg-blue-400/40 flex flex-col gap-1 p-2 cursor-default" onClick={() => toggleFolder(folder.name)}>
+        <div className="bg-slate-50 hover:bg-blue-400/40 flex flex-col gap-1 p-2 cursor-default" onClick={() => setIsOpen(prev => !prev)}>
             <div className="flex flex-row items-center gap-1">
                 <FolderIcon />
                 {folder.name}
@@ -29,8 +24,6 @@ export function Folder({ folder, openFolders, toggleFolder }: FolderProps) {
                                 <div onClick={(e) => e.stopPropagation()} key={child.name}>
                                     <Folder
                                         folder={child}
-                                        openFolders={openFolders}
-                                        toggleFolder={toggleFolder}
                                     />
                                 </div>
                             );

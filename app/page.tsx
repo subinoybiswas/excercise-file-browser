@@ -2,10 +2,8 @@
 import { Folder } from "@/components/folder";
 import { File } from "@/components/file";
 import { FolderStructure } from "@/types/Structure";
-import { useState } from "react";
 
 export default function Home() {
-  const [openFolders, setOpenFolders] = useState<Set<string>>(new Set());
   
   const folderStructure: FolderStructure = [
     {
@@ -26,17 +24,6 @@ export default function Home() {
     { type: "file", name: "File2" }
   ];
 
-  const toggleFolder = (folderName: string) => {
-    setOpenFolders((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(folderName)) {
-        newSet.delete(folderName);
-      } else {
-        newSet.add(folderName);
-      }
-      return newSet;
-    });
-  };
 
   return (
     <main>
@@ -49,8 +36,7 @@ export default function Home() {
             <Folder 
               key={item.name} 
               folder={item} 
-              openFolders={openFolders} 
-              toggleFolder={toggleFolder} 
+          
             />
           );
         }
